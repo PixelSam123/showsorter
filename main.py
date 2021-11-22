@@ -6,12 +6,13 @@ from numpy.core.fromnumeric import argmin
 from numpy.typing import NDArray
 from matplotlib.animation import FuncAnimation
 
-LIST_SIZE = 100
+LIST_SIZE = 50
 
 # please do something about these global variables later
-itr = 0
+itr = 1  # 1 for insertsort, 0 for everything else
 itr_bubble = 0
 bubble_sorted_count = 0
+itr_insert = 1
 
 
 def selectsort_step_ints(frame, list: NDArray[int_]):
@@ -110,12 +111,50 @@ def bubblesort_step_ints(frame, list: NDArray[int_]):
         )
 
 
+def insertsort_step_ints(frame, list: NDArray[int_]):
+    global itr
+    global itr_insert
+    last_idx = LIST_SIZE - 1
+
+    cla()
+    xlabel("Index")
+    ylabel("Value")
+
+    if itr < last_idx:
+        bar(arange(start=0, stop=itr_insert), list[:itr_insert], width=1, color="teal")
+        bar(
+            arange(start=itr_insert, stop=itr_insert + 1),
+            list[itr_insert : itr_insert + 1],
+            width=1,
+            color="orange",
+        )
+        bar(
+            arange(start=itr_insert + 1, stop=LIST_SIZE),
+            list[itr_insert + 1 :],
+            width=1,
+            color="teal",
+        )
+
+        if itr_insert > 0 and list[itr_insert] < list[itr_insert - 1]:
+            list[itr_insert], list[itr_insert - 1] = (
+                list[itr_insert - 1],
+                list[itr_insert],
+            )
+            itr_insert -= 1
+        else:
+            itr += 1
+            itr_insert = itr
+
+    else:
+        bar(arange(LIST_SIZE), list, width=1, color="teal")
+
+
 def main():
     random_list = array(sample([num for num in range(1, LIST_SIZE + 1)], k=LIST_SIZE))
     print(random_list)
 
     animation = FuncAnimation(
-        gcf(), selectsort_step_ints, fargs=[random_list], interval=75
+        gcf(), insertsort_step_ints, fargs=[random_list], interval=75
     )
     show()
 
