@@ -61,7 +61,6 @@ def selectsort_step_ints(frame, list: NDArray[int_]):
 
 
 def bubblesort_step_ints(frame, list: NDArray[int_]):
-    global itr
     global itr_bubble
     global bubble_sorted_count
     last_idx = LIST_SIZE - 1
@@ -71,7 +70,7 @@ def bubblesort_step_ints(frame, list: NDArray[int_]):
     ylabel("Value")
     bar(arange(start=0, stop=itr_bubble), list[:itr_bubble], width=1, color="teal")
 
-    if itr < last_idx:
+    if bubble_sorted_count < last_idx:
         if itr_bubble < last_idx - bubble_sorted_count:
             bar(
                 arange(start=itr_bubble, stop=itr_bubble + 2),
@@ -102,7 +101,6 @@ def bubblesort_step_ints(frame, list: NDArray[int_]):
 
             bubble_sorted_count += 1
             itr_bubble = 0
-            itr += 1
     else:
         bar(
             arange(start=itr_bubble, stop=LIST_SIZE),
