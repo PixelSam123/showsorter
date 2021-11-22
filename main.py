@@ -1,27 +1,31 @@
 from random import sample
 
-from matplotlib.pyplot import bar, cla, show, gcf, xlabel, ylabel
+from matplotlib.pyplot import bar, cla, show, gcf, xlabel, ylabel, title
 from numpy import arange, array, int_
 from numpy.core.fromnumeric import argmin
 from numpy.typing import NDArray
 from matplotlib.animation import FuncAnimation
+from time import sleep
 
 LIST_SIZE = 50
 
 # please do something about these global variables later
-itr = 1  # 1 for insertsort, 0 for everything else
+itr = 0  # 1 for insertsort, 0 for everything else
 itr_bubble = 0
 bubble_sorted_count = 0
 itr_insert = 1
+waiting_for_start_delay = True
 
 
 def selectsort_step_ints(frame, list: NDArray[int_]):
+    global waiting_for_start_delay
     global itr
     last_idx = LIST_SIZE - 1
 
     cla()
-    xlabel("Index")
-    ylabel("Value")
+    title("Selection Sort")
+    xlabel("Indeks")
+    ylabel("Nilai")
 
     if itr < last_idx:
         min_idx = argmin(list[itr:]) + itr
@@ -60,15 +64,21 @@ def selectsort_step_ints(frame, list: NDArray[int_]):
     else:
         bar(arange(LIST_SIZE), list, width=1, color="teal")
 
+    if waiting_for_start_delay:
+        sleep(1)
+        waiting_for_start_delay = False
+
 
 def bubblesort_step_ints(frame, list: NDArray[int_]):
+    global waiting_for_start_delay
     global itr_bubble
     global bubble_sorted_count
     last_idx = LIST_SIZE - 1
 
     cla()
-    xlabel("Index")
-    ylabel("Value")
+    title("Bubble Sort")
+    xlabel("Indeks")
+    ylabel("Nilai")
     bar(arange(start=0, stop=itr_bubble), list[:itr_bubble], width=1, color="teal")
 
     if bubble_sorted_count < last_idx:
@@ -110,14 +120,19 @@ def bubblesort_step_ints(frame, list: NDArray[int_]):
             color="teal",
         )
 
+    if waiting_for_start_delay:
+        sleep(1)
+        waiting_for_start_delay = False
+
 
 def insertsort_step_ints(frame, list: NDArray[int_]):
     global itr
     global itr_insert
 
     cla()
-    xlabel("Index")
-    ylabel("Value")
+    title("Insertion Sort")
+    xlabel("Indeks")
+    ylabel("Nilai")
 
     if itr < LIST_SIZE:
         bar(arange(start=0, stop=itr_insert), list[:itr_insert], width=1, color="teal")
@@ -153,7 +168,7 @@ def main():
     print(random_list)
 
     animation = FuncAnimation(
-        gcf(), insertsort_step_ints, fargs=[random_list], interval=75
+        gcf(), bubblesort_step_ints, fargs=[random_list], interval=75
     )
     show()
 
