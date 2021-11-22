@@ -114,13 +114,12 @@ def bubblesort_step_ints(frame, list: NDArray[int_]):
 def insertsort_step_ints(frame, list: NDArray[int_]):
     global itr
     global itr_insert
-    last_idx = LIST_SIZE - 1
 
     cla()
     xlabel("Index")
     ylabel("Value")
 
-    if itr < last_idx:
+    if itr < LIST_SIZE:
         bar(arange(start=0, stop=itr_insert), list[:itr_insert], width=1, color="teal")
         bar(
             arange(start=itr_insert, stop=itr_insert + 1),
