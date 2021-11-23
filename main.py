@@ -13,7 +13,8 @@ LIST_SIZE = 50
 itr = 0  # 1 for insertsort, 0 for everything else
 itr_bubble = 0
 bubble_sorted_count = 0
-bubble_sorted = False
+bubble_swapped = False
+bubblesort_break = False
 itr_insert = 1
 waiting_for_start_delay = True
 
@@ -74,7 +75,8 @@ def bubblesort_step_ints(frame, list: NDArray[int_]):
     global waiting_for_start_delay
     global itr_bubble
     global bubble_sorted_count
-    global bubble_sorted
+    global bubble_swapped
+    global bubblesort_break
     last_idx = LIST_SIZE - 1
 
     cla()
@@ -83,7 +85,7 @@ def bubblesort_step_ints(frame, list: NDArray[int_]):
     ylabel("Nilai")
     bar(arange(start=0, stop=itr_bubble), list[:itr_bubble], width=1, color="teal")
 
-    if bubble_sorted_count < last_idx and not bubble_sorted:
+    if bubble_sorted_count < last_idx and not bubblesort_break:
         if itr_bubble < last_idx - bubble_sorted_count:
             bar(
                 arange(start=itr_bubble, stop=itr_bubble + 2),
@@ -103,7 +105,10 @@ def bubblesort_step_ints(frame, list: NDArray[int_]):
                     list[itr_bubble + 1],
                     list[itr_bubble],
                 )
-                bubble_sorted = True
+                bubble_swapped = True
+
+            if itr_bubble == last_idx - bubble_sorted_count - 1 and not bubble_swapped:
+                bubblesort_break = True
 
             itr_bubble += 1
         else:
@@ -114,6 +119,7 @@ def bubblesort_step_ints(frame, list: NDArray[int_]):
                 color="teal",
             )
 
+            bubble_swapped = False
             bubble_sorted_count += 1
             itr_bubble = 0
     else:
@@ -169,10 +175,11 @@ def insertsort_step_ints(frame, list: NDArray[int_]):
 
 def main():
     random_list = array(sample([num for num in range(1, LIST_SIZE + 1)], k=LIST_SIZE))
+    presorted_list = array(range(1, LIST_SIZE + 1))
     print(random_list)
 
     animation = FuncAnimation(
-        gcf(), bubblesort_step_ints, fargs=[random_list], interval=75
+        gcf(), bubblesort_step_ints, fargs=[presorted_list], interval=75
     )
     show()
 
