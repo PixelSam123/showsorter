@@ -13,6 +13,7 @@ LIST_SIZE = 50
 itr = 0  # 1 for insertsort, 0 for everything else
 itr_bubble = 0
 bubble_sorted_count = 0
+bubble_sorted = False
 itr_insert = 1
 waiting_for_start_delay = True
 
@@ -73,6 +74,7 @@ def bubblesort_step_ints(frame, list: NDArray[int_]):
     global waiting_for_start_delay
     global itr_bubble
     global bubble_sorted_count
+    global bubble_sorted
     last_idx = LIST_SIZE - 1
 
     cla()
@@ -81,7 +83,7 @@ def bubblesort_step_ints(frame, list: NDArray[int_]):
     ylabel("Nilai")
     bar(arange(start=0, stop=itr_bubble), list[:itr_bubble], width=1, color="teal")
 
-    if bubble_sorted_count < last_idx:
+    if bubble_sorted_count < last_idx and not bubble_sorted:
         if itr_bubble < last_idx - bubble_sorted_count:
             bar(
                 arange(start=itr_bubble, stop=itr_bubble + 2),
@@ -101,6 +103,9 @@ def bubblesort_step_ints(frame, list: NDArray[int_]):
                     list[itr_bubble + 1],
                     list[itr_bubble],
                 )
+            else:
+                bubble_sorted = True
+
             itr_bubble += 1
         else:
             bar(
