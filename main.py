@@ -103,7 +103,6 @@ def bubblesort_step_ints(frame, list: NDArray[int_]):
                     list[itr_bubble + 1],
                     list[itr_bubble],
                 )
-            else:
                 bubble_sorted = True
 
             itr_bubble += 1
